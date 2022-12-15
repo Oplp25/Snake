@@ -12,14 +12,13 @@ namespace fg {
 		sf::Color colour;
 	public:
 		void draw(sf::RenderWindow& win);
-		void move();
 		bool collidesWith(entity target);
+		void move();
 
+		int vel;//velocity
+		int direction;//down:0 left:1 up:2 right:3
 		sf::Vector2f pos;
 		sf::RectangleShape hitbox;
-		int direction;//0=down, 1=left, 2=up, 3=right
-		int  vel;//velocity
-
 		entity(sf::Vector3f rgb, sf::Vector2f pos, sf::Vector2f size);
 
 		entity() {}
