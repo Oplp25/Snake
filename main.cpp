@@ -17,7 +17,7 @@ int main() {
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Red);
 
-	entity head = entity(sf::Vector3i(0,200,0), sf::Vector2f(50,50),sf::Vector2f(10,10));
+	entity head = entity(sf::Vector3f(0,200,0), sf::Vector2f(50,50),sf::Vector2f(50,50));
 
 	vector<entity> entities;
 	entities.push_back(head);
@@ -29,7 +29,7 @@ int main() {
 			}
 		}
 		
-		draw(win,entities );
+		draw(win,entities);
 	}
 	return 0;
 }
