@@ -3,7 +3,8 @@
 #define SNAKE
 #include <SFML\Graphics.hpp>
 #include <vector>
-#include <String>
+#include <string>
+#include <random>
 
 
 namespace fg {
@@ -14,7 +15,7 @@ namespace fg {
 		void move();
 		void setDirection(int newD);
 		void setSnake();
-
+		void setRandPos(std::default_random_engine gen,std::uniform_int_distribution<int> dist, std::uniform_int_distribution<int> distY);
 		float vel;//velocity
 		int direction;//down:0 left:1 up:2 right:3
 		sf::Color colour;

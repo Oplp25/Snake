@@ -1,6 +1,7 @@
 #include "entity.h"
 #include <vector>
 #include <iostream>
+#include <random>
 using namespace std;
 
 
@@ -18,7 +19,6 @@ void fg::entity::draw(sf::RenderWindow &win) {
 }
 
 void fg::entity::move() {
-	cout << direction << endl;
 	switch (direction) {
 	default:
 		break;
@@ -53,6 +53,6 @@ void fg::entity::setSnake() {
 	this->vel = 0.03;
 }
 
-fg::entity::entity() {
-	this->direction = 1;
+void fg::entity::setRandPos(std::default_random_engine gen, std::uniform_int_distribution<int> distX, std::uniform_int_distribution<int> distY) {
+	this->pos = sf::Vector2f(distX(gen), distY(gen));
 }
