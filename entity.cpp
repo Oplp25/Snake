@@ -37,8 +37,7 @@ void fg::entity::move() {
 	}
 }
 void fg::entity::setDirection(int newD) {
-	this->direction = newD;
-	/*if (this->direction > 1) {
+	if (this->direction > 1) {
 		if ((newD + 2) != direction) {
 			this->direction = newD;
 		}
@@ -47,9 +46,13 @@ void fg::entity::setDirection(int newD) {
 		if (newD-2 != this->direction) {
 			this->direction = newD;
 		}
-	}*/
+	}
 }
 
 void fg::entity::setSnake() {
-	this->vel = 0.05;
+	this->vel = 0.03;
+}
+
+fg::entity::entity() {
+	this->direction = 1;
 }
