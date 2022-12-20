@@ -3,6 +3,7 @@
 #include<SFML/Graphics.hpp>
 #include <list>
 #include <random>
+#include <filesystem>
 #include "entity.h"
 using namespace std;
 using namespace fg;
@@ -15,7 +16,9 @@ const sf::Vector3f snakeColour2 = sf::Vector3f(82, 5, 10);
 const sf::Vector3f snakeColour3 = sf::Vector3f(43, 80, 170);
 const sf::Vector3f fruitColour = sf::Vector3f(255,27,28);
 
-const string fontAddress = "\Resources\comic.ttf";
+const filesystem::path cwd = filesystem::current_path();
+const string fontAddress = cwd.string() + "\\Resources\\comicsans\\COMIC.ttf";
+//fontAddress += "\\Resources\\comicsans\\COMIC.ttf";
 
 void moveSnake(list<entity> &player) {
 	if (player.size() > 1) {
@@ -25,7 +28,7 @@ void moveSnake(list<entity> &player) {
 	}
 	player.front().move();
 }
-void draw(sf::RenderWindow& win, list<entity> player1, entity fruit, list<entity> player2 = list<entity>{}) {
+void draw(sf::RenderWindow& win, list<entity> player1, entity fruit, list<entity> player2 = list<entity>{}, sf::Text p1p, sf::Text p2p) {
 	win.clear();
 	for (entity i:player1) {
 		i.draw(win);
@@ -44,10 +47,19 @@ void runMenu(sf::RenderWindow& win, sf::Font comicsans) {
 	title.setFillColor(sf::Color(0, 200, 0));
 	title.setStyle(sf::Text::Bold | sf::Text::Underlined);
 	title.setFont(comicsans);
-	title.setPosition(sf::Vector2f(win.getSize().x / 2,win.getSize().y/2));
+	title.setPosition(sf::Vector2f((win.getSize().x-title.getLocalBounds().width) / 2, ((win.getSize().y - title.getLocalBounds().height) /2) - (win.getSize().y/4)));
+
+	sf::Text startText;
+	startText.setString("Press enter to start");
+	startText.setCharacterSize(100);
+	startText.setFillColor(sf::Color(0, 200, 0));
+	startText.setFont(comicsans);
+	startText.setPosition(sf::Vector2f((win.getSize().x - startText.getLocalBounds().width) / 2, ((win.getSize().y - startText.getLocalBounds().height) / 2) ));
+
 	win.clear();
 
 	win.draw(title);
+	win.draw(startText);
 
 	win.display();
 	bool run = true;
@@ -84,17 +96,33 @@ int main() {
 	list<entity> player1;
 	player1.push_back(head);
 
+	list<entity> player2;
+
+	bool twoPlayer = false;
+
 	int p1Points = 0;
 	int p2Points = 0;
 
+
 	sf::Font comicsans;
-	comicsans.loadFromFile(fontAddress);
+	if (!comicsans.loadFromFile(fontAddress)) {
+		cout << "font failed to load" << endl;
+		return -1;
+	}
 	
 	sf::Text p1PointsText;
 	sf::Text p2PointsText;
 
 	p1PointsText.setString("Points: 0");
+	p2PointsText.setString("Points: 0");
 
+	p1PointsText.setCharacterSize(100);
+	p1PointsText.setFillColor(sf::Color(200, 0, 0));
+	p1PointsText.setFont(comicsans);
+
+	p2PointsText.setCharacterSize(100);
+	p2PointsText.setFillColor(sf::Color(200, 0, 0));
+	p2PointsText.setFont(comicsans);
 
 	runMenu(win, comicsans);
 
@@ -121,7 +149,7 @@ int main() {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 			win.close();
 		}
-		draw(win,player1,fruit);
+		draw(win,player1,fruit,player2,p1PointsText,p2PointsText);
 		moveSnake(player1);
 		for (entity i : player1) {
 			if (i.collidesWith(player1.front()) && i.type !="head") {
@@ -131,6 +159,7 @@ int main() {
 
 		if (player1.front().collidesWith(fruit)) {//doesn't work
 			p1Points++;
+			p1PointsText.setString("Points: "+to_string(p1Points));
 			fruit.pos=sf::Vector2f(distX(randGen), distY(randGen));
 		}
 	}
