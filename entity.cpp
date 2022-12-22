@@ -53,7 +53,7 @@ void fg::entity::setDirection(int newD) {
 }
 
 void fg::entity::setSnake() {
-	this->vel = 0.03;
+	this->vel = this->size.x+size.x/5;
 }
 
 bool fg::entity::collidesWith(entity target) {
@@ -62,4 +62,13 @@ bool fg::entity::collidesWith(entity target) {
 	bool width = max(this->pos.x, target.pos.x) < min(this->pos.x + this->size.x, target.pos.x + target.size.x);
 	bool height = min(this->pos.y + this->size.y, target.pos.y + target.size.y) > max(this->pos.y, target.pos.y);
 	return width && height;
+}
+fg::entity::entity(sf::Color rgb, sf::Vector2f pos1, sf::Vector2f size, std::string type) {
+	this->colour = rgb;
+	this->hitbox = sf::RectangleShape(size);
+	this->hitbox.setFillColor(this->colour);
+	this->pos = pos1;
+	this->size = size;
+	this->direction = 1;
+	this->type = type;
 }

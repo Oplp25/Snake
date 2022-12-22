@@ -24,7 +24,7 @@ namespace fg {
 		sf::Vector2f size;
 		sf::RectangleShape hitbox;
 		entity(sf::Vector3f rgb, sf::Vector2f pos, sf::Vector2f size, std::string type);
-
+		entity(sf::Color rgb, sf::Vector2f pos, sf::Vector2f size, std::string type);
 		entity() {}
 	};
 }
